@@ -173,6 +173,24 @@ python ml/train.py
 cd dashboard && npm install && npm run dev
 ```
 
+## Run with Docker
+
+```bash
+# Build and start all services (PostgreSQL + API + Dashboard)
+docker compose up --build
+```
+
+Services:
+- Dashboard: `http://localhost:5173`
+- API: `http://localhost:3001`
+- Postgres: `localhost:5432` (`postgres/postgres`, DB: `sentinelpam`)
+
+Stop everything:
+
+```bash
+docker compose down
+```
+
 
 
 
