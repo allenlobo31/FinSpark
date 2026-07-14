@@ -1,0 +1,9 @@
+employee_id,name,department,join_date,designation,clearance_level
+EMP001,Rajesh Kumar,Engineering,2019-03-15,Senior Developer,standard
+EMP002,Sneha Patil,Finance,2018-07-01,Finance Manager,elevated
+EMP003,Amit Sharma,Operations,2020-01-10,Operations Lead,standard
+EMP004,Priya Nair,Compliance,2017-11-20,Compliance Officer,elevated
+EMP005,Vikram Singh,IT Security,2016-05-08,CISO,critical
+EMP006,Ananya Das,Risk Management,2019-09-12,Risk Analyst,elevated
+EMP007,Suresh Menon,Treasury,2018-02-28,Treasury Manager,critical
+EMP008,Kavita Joshi,HR,2021-06-15,HR Business Partner,standard

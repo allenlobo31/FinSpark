@@ -1,0 +1,25 @@
+RBI CYBERSECURITY FRAMEWORK INSPECTION REPORT - 2024
+=====================================================
+Bank: Test National Bank Ltd.
+Inspection Date: 2024-03-15
+Inspector: RBI Cyber Security Division
+
+FINDINGS:
+1. Privileged access monitoring - COMPLIANT
+   - PAM solution deployed across all critical systems
+   - Session recording enabled for DBA access
+
+2. Incident response - PARTIALLY COMPLIANT
+   - CERT-In reporting within 6 hours achieved
+   - Automated containment needs improvement
+
+3. Data loss prevention - COMPLIANT
+   - DLP rules active on email gateway
+   - USB ports disabled on production terminals
+
+4. Vulnerability management - COMPLIANT
+   - VAPT conducted quarterly
+   - Critical patches applied within 72 hours
+
+OVERALL STATUS: COMPLIANT WITH OBSERVATIONS
+Next inspection: 2024-09-15

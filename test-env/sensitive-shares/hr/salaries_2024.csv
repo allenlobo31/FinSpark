@@ -1,0 +1,9 @@
+employee_id,name,department,annual_salary,bonus_pct,grade
+EMP001,Rajesh Kumar,Engineering,1850000,15,L5
+EMP002,Sneha Patil,Finance,2200000,18,L6
+EMP003,Amit Sharma,Operations,1450000,12,L4
+EMP004,Priya Nair,Compliance,1950000,16,L5
+EMP005,Vikram Singh,IT Security,2400000,20,L6
+EMP006,Ananya Das,Risk Management,2100000,17,L6
+EMP007,Suresh Menon,Treasury,1750000,14,L5
+EMP008,Kavita Joshi,HR,1600000,13,L4

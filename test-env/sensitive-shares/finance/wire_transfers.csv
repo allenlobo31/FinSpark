@@ -1,0 +1,6 @@
+wire_id,date,originator,beneficiary,amount_usd,swift_code,purpose,status,risk_flag
+WIRE20240001,2024-01-05,ACC001122,BNFX_LONDON,50000,BARCGB22,trade_settlement,completed,low
+WIRE20240002,2024-01-06,ACC002233,BNFX_SINGAPORE,125000,DBSSSGSG,interbank_transfer,completed,medium
+WIRE20240003,2024-01-08,ACC003344,BNFX_DUBAI,75000,ABORAEAD,vendor_payment,completed,low
+WIRE20240004,2024-01-10,ACC004455,BNFX_NEWYORK,200000,CHASUS33,trade_settlement,pending,low
+WIRE20240005,2024-01-12,ACC005566,BNFX_HONGKONG,350000,HSBCHKHH,capital_transfer,completed,high
