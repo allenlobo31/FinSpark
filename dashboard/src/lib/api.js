@@ -1,6 +1,8 @@
 // Shared API client — all fetch calls in one place. Never duplicate API logic.
 
-const BASE = '';  // Empty because Vite proxies /api/* to Express
+// In development, this is empty (uses Vite proxy). 
+// In production, it uses the environment variable if set.
+const BASE = import.meta.env?.VITE_API_BASE_URL || '';
 
 async function fetchJSON(url, options = {}) {
   const res = await fetch(`${BASE}${url}`, {
