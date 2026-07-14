@@ -13,8 +13,10 @@ COPY server/package*.json ./server/
 RUN cd server && npm ci --omit=dev
 
 COPY ml/requirements.txt ./ml/requirements.txt
-RUN pip3 install --no-cache-dir -r ml/requirements.txt \
-  && pip3 install --no-cache-dir numpy xgboost
+# --retries/--timeout make the build resilient to transient DNS/network drops;
+# split into two layers so a failure in the second doesn't redo the first.
+RUN pip3 install --no-cache-dir --retries 10 --timeout 60 -r ml/requirements.txt
+RUN pip3 install --no-cache-dir --retries 10 --timeout 60 numpy xgboost
 
 COPY server ./server
 COPY ml ./ml
