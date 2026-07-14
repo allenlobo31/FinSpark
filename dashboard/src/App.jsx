@@ -10,6 +10,7 @@ export default function App() {
   const [alerts, setAlerts] = useState([]);
   const [selectedAlert, setSelectedAlert] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [activeNav, setActiveNav] = useState('dashboard');
 
   const fetchAlerts = () => {
     api.alerts()
@@ -29,37 +30,59 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
+  const navItems = [
+    { id: 'dashboard', icon: '📊', label: 'Dashboard' },
+    { id: 'policies', icon: '🛡️', label: 'Policies' },
+    { id: 'mfa', icon: '🔐', label: 'MFA Settings' },
+    { id: 'audit', icon: '📋', label: 'Audit Logs' },
+  ];
+
   return (
     <div className="app-layout">
       <aside className="sidebar">
         <div className="sidebar-brand">
-          <h1>SentinelPAM</h1>
+          <h1>
+            <span className="brand-icon">🔒</span>
+            SentinelPAM
+          </h1>
           <div className="subtitle">Privileged Access Monitor</div>
         </div>
         <nav className="sidebar-nav">
-          <button className="nav-item active"><span className="icon">👁️</span> Dashboard</button>
-          <button className="nav-item"><span className="icon">🛡️</span> Policies</button>
-          <button className="nav-item"><span className="icon">🔒</span> MFA Settings</button>
-          <button className="nav-item"><span className="icon">📜</span> Audit Logs</button>
+          {navItems.map(item => (
+            <button
+              key={item.id}
+              className={`nav-item ${activeNav === item.id ? 'active' : ''}`}
+              onClick={() => setActiveNav(item.id)}
+            >
+              <span className="icon">{item.icon}</span>
+              {item.label}
+            </button>
+          ))}
         </nav>
+        <div className="sidebar-footer">
+          <div className="sidebar-status">
+            <span className="status-dot"></span>
+            System Monitoring Active
+          </div>
+        </div>
       </aside>
       
       <main className="main-content">
         <div className="page-header">
-          <h2>Risk Operations Center</h2>
+          <h1>Risk Operations Center</h1>
           <div className="page-subtitle">Real-time anomalous access detection and automated response</div>
         </div>
 
         <Metrics />
 
-        <div className="grid-3" style={{ height: '500px', marginBottom: '20px' }}>
-          <div style={{ height: '100%' }}>
-            <RiskFeed alerts={alerts} onSelectAlert={setSelectedAlert} />
+        <div className="grid-3" style={{ minHeight: '480px', marginBottom: '24px' }}>
+          <div style={{ minHeight: '480px' }}>
+            <RiskFeed alerts={alerts} selectedAlert={selectedAlert} onSelectAlert={setSelectedAlert} />
           </div>
-          <div style={{ height: '100%' }}>
+          <div style={{ minHeight: '480px' }}>
             <ShapBreakdown alert={selectedAlert} />
           </div>
-          <div style={{ height: '100%' }}>
+          <div style={{ minHeight: '480px' }}>
             <SessionReplay sessionId={selectedAlert?.session_id} />
           </div>
         </div>
