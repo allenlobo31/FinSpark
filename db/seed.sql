@@ -1,10 +1,6 @@
 -- SentinelPAM Seed Data
 -- 4 test users with distinct behavior profiles
 
-\c sentinelpam
-
--- Passwords are bcrypt hashes of simple test passwords (username + '123')
--- In real deployment these would be proper secrets
 INSERT INTO users (username, role, password_hash, typical_hours_start, typical_hours_end) VALUES
     ('ravi_dba',     'dba_senior',      crypt('ravi123',     gen_salt('bf')),  9,  18),
     ('priya_dba',    'dba_junior',      crypt('priya123',    gen_salt('bf')), 10,  19),

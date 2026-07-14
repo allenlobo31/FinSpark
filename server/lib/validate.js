@@ -26,7 +26,7 @@ function validateAuthEvent(body) {
       event_type,
       ip_address: ip_address || '127.0.0.1',
       success,
-      event_timestamp: new Date().toISOString(),
+      event_timestamp: body.event_timestamp || new Date().toISOString(),
     },
   };
 }
@@ -57,7 +57,7 @@ function validateQueryEvent(body) {
       query_hash,
       rows_affected: Number.isInteger(rows_affected) ? rows_affected : 0,
       duration_ms: Number.isInteger(duration_ms) ? duration_ms : 0,
-      event_timestamp: new Date().toISOString(),
+      event_timestamp: body.event_timestamp || new Date().toISOString(),
     },
   };
 }
@@ -84,7 +84,7 @@ function validateFileAccessEvent(body) {
       file_path,
       operation,
       bytes_transferred: typeof bytes_transferred === 'number' ? bytes_transferred : 0,
-      event_timestamp: new Date().toISOString(),
+      event_timestamp: body.event_timestamp || new Date().toISOString(),
     },
   };
 }

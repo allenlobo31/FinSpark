@@ -26,6 +26,8 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/events', require('./routes/events'));
+app.use('/mfa', require('./routes/mfa'));
+app.use('/api', require('./routes/dashboard'));
 
 // Health check
 app.get('/health', async (req, res) => {

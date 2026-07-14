@@ -149,8 +149,12 @@ router.post('/sessions', async (req, res) => {
 
   try {
     const row = await db.query(
-      `INSERT INTO sessions (user_id, pg_backend_pid) VALUES ($1, $2) RETURNING id, started_at`,
-      [user_id, pg_backend_pid || null]
+      req.body.started_at 
+        ? `INSERT INTO sessions (user_id, pg_backend_pid, started_at) VALUES ($1, $2, $3) RETURNING id, started_at`
+        : `INSERT INTO sessions (user_id, pg_backend_pid) VALUES ($1, $2) RETURNING id, started_at`,
+      req.body.started_at 
+        ? [user_id, pg_backend_pid || null, req.body.started_at]
+        : [user_id, pg_backend_pid || null]
     );
     res.status(201).json({ session_id: row.rows[0].id, started_at: row.rows[0].started_at });
   } catch (err) {
