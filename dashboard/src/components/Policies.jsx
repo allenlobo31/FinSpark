@@ -1,9 +1,5 @@
 import React from 'react';
 
-const ROW_HEIGHT = 56;
-const VISIBLE_ROWS = 3;
-const TABLE_HEIGHT = ROW_HEIGHT * VISIBLE_ROWS + 42; // 42px for header row
-
 export default function Policies() {
   const policies = [
     {
@@ -44,13 +40,13 @@ export default function Policies() {
   ];
 
   return (
-    <div className="card" style={{ maxHeight: 'calc(100vh - 160px)' }}>
+    <div className="card" style={{ height: 'calc(100vh - 160px)', display: 'flex', flexDirection: 'column' }}>
       <div className="card-header">
         <h3 className="card-title">Automated Response Policies</h3>
         <div className="card-subtitle">{policies.length} rules active</div>
       </div>
 
-      <div style={{ maxHeight: TABLE_HEIGHT, overflowY: 'auto' }}>
+      <div style={{ flex: 1, overflowY: 'auto' }}>
         <table className="data-table">
           <thead>
             <tr>

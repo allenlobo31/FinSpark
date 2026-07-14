@@ -11,7 +11,7 @@ router.get('/alerts', async (req, res) => {
   try {
     let sql = `
       SELECT a.*, u.username, u.role,
-             rs.score, rs.shap_values, rs.feature_values, rs.pattern_class
+             rs.score, rs.shap_values, rs.feature_values, rs.pattern_class, rs.session_id
       FROM alerts a
       JOIN users u ON a.user_id = u.id
       LEFT JOIN risk_scores rs ON a.risk_score_id = rs.id
