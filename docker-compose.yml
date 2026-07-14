@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:16
+    container_name: finspark-db
+    environment:
+      POSTGRES_DB: sentinelpam
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d sentinelpam"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: finspark-server
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PG_HOST: db
+      PG_PORT: 5432
+      PG_DATABASE: sentinelpam
+      PG_USER: postgres
+      PG_PASSWORD: postgres
+      PORT: 3001
+      PYTHON_PATH: python3
+    ports:
+      - "3001:3001"
+
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: http://localhost:3001
+    container_name: finspark-dashboard
+    depends_on:
+      - server
+    ports:
+      - "5173:80"
+
+volumes:
+  pgdata:
