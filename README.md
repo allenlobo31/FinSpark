@@ -172,3 +172,33 @@ python ml/train.py
 # 6. Dashboard
 cd dashboard && npm install && npm run dev
 ```
+
+
+
+
+# 1. Setup Postgres Database
+>> psql -U postgres -f db\schema.sql
+>> psql -U postgres -f db\seed.sql
+>>      
+>> # 2. Start the Backend API (keep this running!)
+>> cd server
+>> npm install
+>> node index.js
+>> 
+
+
+ # 1. Install ML dependencies (using python -m pip to fix your error)
+>> cd ml
+>> python -m pip install -r requirements.txt
+>> cd ..
+>> 
+>> # 2. Generate activity (this will now work because Terminal 1 is running)
+>> python scripts\generate-activity.py
+>> 
+>> # 3. Train model (this saves the model permanently)
+>> python ml\train.py
+>> 
+>> # 4. Start the Dashboard
+>> cd dashboard
+>> npm install
+>> npm run dev

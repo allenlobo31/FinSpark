@@ -18,7 +18,7 @@ export default function LateralMovementGraph() {
         }
 
         const width = containerRef.current.clientWidth;
-        const height = 420;
+        const height = 600;
 
         d3.select(svgRef.current).selectAll('*').remove();
 
@@ -167,7 +167,7 @@ export default function LateralMovementGraph() {
         </div>
       </div>
       {loading ? (
-        <div className="loading-container" style={{ height: 420 }}>
+        <div className="loading-container" style={{ height: 600 }}>
           <div className="spinner"></div>Loading topology...
         </div>
       ) : isEmpty ? (

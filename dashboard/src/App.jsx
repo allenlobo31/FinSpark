@@ -29,7 +29,7 @@ export default function App() {
 
   useEffect(() => {
     fetchAlerts();
-    const interval = setInterval(fetchAlerts, 5000); // Polling every 5s
+    const interval = setInterval(fetchAlerts, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -39,6 +39,20 @@ export default function App() {
     { id: 'mfa', icon: '🔐', label: 'MFA Settings' },
     { id: 'audit', icon: '📋', label: 'Audit Logs' },
   ];
+
+  const pageTitle = {
+    dashboard: 'Risk Operations Center',
+    policies: 'Policy Management',
+    mfa: 'MFA Settings',
+    audit: 'Audit Logs',
+  };
+
+  const pageSubtitle = {
+    dashboard: 'Real-time anomalous access detection and automated response',
+    policies: 'Automated response rules based on ML inference',
+    mfa: 'TOTP multi-factor authentication per user',
+    audit: 'Quantum-safe cryptographic audit trail',
+  };
 
   const renderContent = () => {
     switch (activeNav) {
@@ -53,19 +67,11 @@ export default function App() {
         return (
           <>
             <Metrics />
-
-            <div className="grid-3" style={{ minHeight: '480px', marginBottom: '24px' }}>
-              <div style={{ minHeight: '480px' }}>
-                <RiskFeed alerts={alerts} selectedAlert={selectedAlert} onSelectAlert={setSelectedAlert} />
-              </div>
-              <div style={{ minHeight: '480px' }}>
-                <ShapBreakdown alert={selectedAlert} />
-              </div>
-              <div style={{ minHeight: '480px' }}>
-                <SessionReplay sessionId={selectedAlert?.session_id} />
-              </div>
+            <div className="grid-3" style={{ marginBottom: '24px' }}>
+              <RiskFeed alerts={alerts} selectedAlert={selectedAlert} onSelectAlert={setSelectedAlert} />
+              <ShapBreakdown alert={selectedAlert} />
+              <SessionReplay sessionId={selectedAlert?.session_id} />
             </div>
-
             <LateralMovementGraph />
           </>
         );
@@ -97,19 +103,17 @@ export default function App() {
         <div className="sidebar-footer">
           <div className="sidebar-status">
             <span className="status-dot"></span>
-            System Monitoring Active
+            Monitoring Active
           </div>
         </div>
       </aside>
       
       <main className="main-content">
         <div className="page-header">
-          <h1>Risk Operations Center</h1>
-          <div className="page-subtitle">Real-time anomalous access detection and automated response</div>
+          <h1>{pageTitle[activeNav]}</h1>
+          <div className="page-subtitle">{pageSubtitle[activeNav]}</div>
         </div>
-
         {renderContent()}
-
       </main>
     </div>
   );

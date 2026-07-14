@@ -1,91 +1,71 @@
 import React from 'react';
 
+const ROW_HEIGHT = 56;
+const VISIBLE_ROWS = 3;
+const TABLE_HEIGHT = ROW_HEIGHT * VISIBLE_ROWS + 42; // 42px for header row
+
 export default function Policies() {
   const policies = [
     {
       id: 'pol_1',
-      name: 'Low Risk Threshold',
-      condition: 'Risk Score < 40',
-      action: 'Log Only',
-      description: 'Standard access logging. No user interruption.',
-      status: 'Active',
-      color: 'var(--color-low)'
+      name: 'Low Risk — Log Only',
+      condition: 'Score < 40',
+      action: 'Log',
+      severity: 'low',
     },
     {
       id: 'pol_2',
-      name: 'Medium Risk Step-up',
-      condition: 'Risk Score 40–75',
-      action: 'MFA Step-up',
-      description: 'Require immediate TOTP multi-factor authentication to continue session.',
-      status: 'Active',
-      color: 'var(--color-medium)'
+      name: 'Medium Risk — MFA Step-up',
+      condition: 'Score 40–75',
+      action: 'MFA Challenge',
+      severity: 'medium',
     },
     {
       id: 'pol_3',
-      name: 'Critical Risk Kill',
-      condition: 'Risk Score > 75',
-      action: 'Session Kill & Lock',
-      description: 'Immediately terminate database backend connection (pg_terminate_backend) and lock account.',
-      status: 'Active',
-      color: 'var(--color-critical)'
+      name: 'Critical Risk — Session Kill',
+      condition: 'Score > 75',
+      action: 'Kill & Lock',
+      severity: 'critical',
     },
     {
       id: 'pol_4',
-      name: 'After-Hours Admin',
-      condition: 'Role == Admin AND Hour > 22',
-      action: 'MFA Step-up',
-      description: 'Require MFA for all admin queries outside of normal business hours.',
-      status: 'Inactive',
-      color: 'var(--text-muted)'
-    }
+      name: 'After-Hours Admin Access',
+      condition: 'Admin AND Hour > 22',
+      action: 'MFA Challenge',
+      severity: 'medium',
+    },
+    {
+      id: 'pol_5',
+      name: 'Vendor Bulk Export',
+      condition: 'Vendor AND rows > 10k',
+      action: 'Kill & Lock',
+      severity: 'critical',
+    },
   ];
 
   return (
-    <div className="card animate-in" style={{ height: '100%' }}>
+    <div className="card" style={{ maxHeight: 'calc(100vh - 160px)' }}>
       <div className="card-header">
-        <div>
-          <h3 className="card-title">Automated Response Policies</h3>
-          <div className="card-subtitle">Manage automated actions taken by the Policy Engine based on ML inference.</div>
-        </div>
-        <button className="badge badge-medium" style={{ cursor: 'pointer', border: 'none' }}>+ New Policy</button>
+        <h3 className="card-title">Automated Response Policies</h3>
+        <div className="card-subtitle">{policies.length} rules active</div>
       </div>
 
-      <div style={{ overflowX: 'auto' }}>
+      <div style={{ maxHeight: TABLE_HEIGHT, overflowY: 'auto' }}>
         <table className="data-table">
           <thead>
             <tr>
               <th>Policy Name</th>
               <th>Condition</th>
-              <th>Automated Action</th>
-              <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {policies.map(policy => (
               <tr key={policy.id}>
-                <td style={{ fontWeight: 600 }}>
-                  <div style={{ color: 'var(--text-heading)' }}>{policy.name}</div>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 400, marginTop: '4px' }}>
-                    {policy.description}
-                  </div>
-                </td>
+                <td style={{ fontWeight: 600, color: 'var(--text-heading)' }}>{policy.name}</td>
                 <td style={{ fontFamily: 'var(--font-mono)', fontSize: '12px' }}>{policy.condition}</td>
                 <td>
-                  <span style={{ 
-                    color: policy.color, 
-                    fontWeight: 600,
-                    background: policy.color === 'var(--text-muted)' ? 'var(--bg-card-hover)' : `${policy.color}15`,
-                    padding: '4px 8px',
-                    borderRadius: '4px',
-                    fontSize: '12px'
-                  }}>
-                    {policy.action}
-                  </span>
-                </td>
-                <td>
-                  <span className={`badge ${policy.status === 'Active' ? 'badge-low' : ''}`} style={policy.status === 'Inactive' ? { background: 'var(--bg-card-hover)', color: 'var(--text-muted)' } : {}}>
-                    {policy.status}
-                  </span>
+                  <span className={`badge badge-${policy.severity}`}>{policy.action}</span>
                 </td>
               </tr>
             ))}
