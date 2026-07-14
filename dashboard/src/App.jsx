@@ -5,6 +5,9 @@ import ShapBreakdown from './components/ShapBreakdown';
 import SessionReplay from './components/SessionReplay';
 import LateralMovementGraph from './components/LateralMovementGraph';
 import Metrics from './components/Metrics';
+import Policies from './components/Policies';
+import MFASettings from './components/MFASettings';
+import AuditLogs from './components/AuditLogs';
 
 export default function App() {
   const [alerts, setAlerts] = useState([]);
@@ -36,6 +39,38 @@ export default function App() {
     { id: 'mfa', icon: '🔐', label: 'MFA Settings' },
     { id: 'audit', icon: '📋', label: 'Audit Logs' },
   ];
+
+  const renderContent = () => {
+    switch (activeNav) {
+      case 'policies':
+        return <Policies />;
+      case 'mfa':
+        return <MFASettings />;
+      case 'audit':
+        return <AuditLogs />;
+      case 'dashboard':
+      default:
+        return (
+          <>
+            <Metrics />
+
+            <div className="grid-3" style={{ minHeight: '480px', marginBottom: '24px' }}>
+              <div style={{ minHeight: '480px' }}>
+                <RiskFeed alerts={alerts} selectedAlert={selectedAlert} onSelectAlert={setSelectedAlert} />
+              </div>
+              <div style={{ minHeight: '480px' }}>
+                <ShapBreakdown alert={selectedAlert} />
+              </div>
+              <div style={{ minHeight: '480px' }}>
+                <SessionReplay sessionId={selectedAlert?.session_id} />
+              </div>
+            </div>
+
+            <LateralMovementGraph />
+          </>
+        );
+    }
+  };
 
   return (
     <div className="app-layout">
@@ -73,21 +108,7 @@ export default function App() {
           <div className="page-subtitle">Real-time anomalous access detection and automated response</div>
         </div>
 
-        <Metrics />
-
-        <div className="grid-3" style={{ minHeight: '480px', marginBottom: '24px' }}>
-          <div style={{ minHeight: '480px' }}>
-            <RiskFeed alerts={alerts} selectedAlert={selectedAlert} onSelectAlert={setSelectedAlert} />
-          </div>
-          <div style={{ minHeight: '480px' }}>
-            <ShapBreakdown alert={selectedAlert} />
-          </div>
-          <div style={{ minHeight: '480px' }}>
-            <SessionReplay sessionId={selectedAlert?.session_id} />
-          </div>
-        </div>
-
-        <LateralMovementGraph />
+        {renderContent()}
 
       </main>
     </div>
