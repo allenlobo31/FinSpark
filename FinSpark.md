@@ -2,6 +2,13 @@
 
 FinSpark integrates **SentinelPAM**, a real-time insider threat detection engine using XGBoost, Quantum-Safe Cryptography (Kyber/Dilithium), and a React monitoring dashboard. 
 
+## Solution Description
+SentinelPAM is a comprehensive Privileged Access Management (PAM) solution designed to proactively detect and mitigate insider threats. It works by:
+- **Real-Time Anomaly Detection**: Utilizing an XGBoost machine learning model to analyze user database query patterns, access frequency, and data volume to score risks dynamically.
+- **Quantum-Safe Audit Logs**: Employing post-quantum cryptographic algorithms (Kyber/Dilithium) to ensure audit logs remain tamper-proof against both classical and future quantum attacks.
+- **Automated Policy Enforcement**: Actively monitoring sessions via a Node.js API and terminating malicious database connections automatically when critical risk thresholds are crossed.
+- **Live Monitoring Dashboard**: Providing security teams with a React-based interface to visualize risk feeds, investigate session replays, and monitor system compliance in real time.
+
 Follow these steps to run the application locally from scratch.
 
 ---
