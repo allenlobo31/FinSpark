@@ -1,9 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChartBar } from '@phosphor-icons/react';
 
 const FIXED_HEIGHT = 460;
 
 export default function ShapBreakdown({ alert }) {
+  const [animationProgress, setAnimationProgress] = useState(0);
+
+  useEffect(() => {
+    if (!alert) return;
+    setAnimationProgress(0);
+    let start = null;
+    let frame;
+    const duration = 800;
+    const animate = (timestamp) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+      setAnimationProgress(ease);
+      if (progress < 1) {
+        frame = requestAnimationFrame(animate);
+      }
+    };
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, [alert]);
+
   if (!alert) {
     return (
       <div className="card" style={{ height: FIXED_HEIGHT }}>
@@ -59,7 +80,8 @@ export default function ShapBreakdown({ alert }) {
 
       <div style={{ flex: 1, overflowY: 'auto', padding: '16px 22px' }}>
         {features.map((feature, idx) => {
-          const width = (feature.absShap / maxAbs) * 100;
+          const width = (feature.absShap / maxAbs) * 100 * animationProgress;
+          const targetWidth = (feature.absShap / maxAbs) * 100;
           const isPositive = feature.shap > 0;
           
           return (
@@ -69,7 +91,7 @@ export default function ShapBreakdown({ alert }) {
                   {featureLabels[feature.name] || feature.name}
                 </div>
                 <div style={{ color: 'var(--text-heading)', fontWeight: 500 }}>
-                  {feature.shap > 0 ? '+' : ''}{feature.shap.toFixed(2)}
+                  {feature.shap > 0 ? '+' : ''}{(feature.shap * animationProgress).toFixed(2)}
                 </div>
               </div>
               <div style={{ display: 'flex', gap: '3px', height: '6px' }}>

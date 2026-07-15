@@ -2,6 +2,38 @@ import React, { useEffect, useState } from 'react';
 import { api } from '../lib/api';
 import { Lightning, Link, Alarm, Timer } from '@phosphor-icons/react';
 
+function AnimatedNumber({ value, suffix = '', duration = 1000 }) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let startTime = null;
+    let animationFrame;
+
+    const animate = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = timestamp - startTime;
+      const percentage = Math.min(progress / duration, 1);
+      
+      // Easing function (easeOutExpo)
+      const easeProgress = percentage === 1 ? 1 : 1 - Math.pow(2, -10 * percentage);
+      
+      setCount(Math.floor(value * easeProgress));
+
+      if (progress < duration) {
+        animationFrame = requestAnimationFrame(animate);
+      } else {
+        setCount(value);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(animationFrame);
+  }, [value, duration]);
+
+  return <>{count.toLocaleString()}{suffix}</>;
+}
+
 export default function Metrics() {
   const [metrics, setMetrics] = useState(null);
   const [stats, setStats] = useState(null);
@@ -20,28 +52,28 @@ export default function Metrics() {
   const statCards = [
     {
       label: 'Total Events',
-      value: stats.events.total.toLocaleString(),
+      value: <AnimatedNumber value={stats.events.total} />,
       icon: <Lightning weight="fill" />,
       iconBg: '#dbeafe',
       color: 'var(--color-accent)',
     },
     {
       label: 'Total Sessions',
-      value: stats.sessions.toLocaleString(),
+      value: <AnimatedNumber value={stats.sessions} />,
       icon: <Link weight="bold" />,
       iconBg: '#e0f2fe',
       color: '#0284c7', // Darker blue to match image
     },
     {
       label: 'Active Alerts',
-      value: stats.alerts.toLocaleString(),
+      value: <AnimatedNumber value={stats.alerts} />,
       icon: <Alarm weight="fill" />,
       iconBg: 'var(--color-critical-bg)',
       color: 'var(--color-critical)',
     },
     {
       label: 'Avg Detect Time',
-      value: metrics.summary.avg_time_to_detect_ms ? `${metrics.summary.avg_time_to_detect_ms}ms` : 'N/A',
+      value: metrics.summary.avg_time_to_detect_ms ? <AnimatedNumber value={metrics.summary.avg_time_to_detect_ms} suffix="ms" /> : 'N/A',
       icon: <Timer weight="fill" />,
       iconBg: 'var(--color-purple-bg)',
       color: 'var(--color-purple)',
