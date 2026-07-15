@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { api, getMockMode, setMockMode } from './lib/api';
+import { api } from './lib/api';
 import RiskFeed from './components/RiskFeed';
 import ShapBreakdown from './components/ShapBreakdown';
 import SessionReplay from './components/SessionReplay';
@@ -11,18 +11,10 @@ import AuditLogs from './components/AuditLogs';
 import { SquaresFour, Shield, LockKey, ListDashes, ShieldCheck, Cube } from '@phosphor-icons/react';
 
 export default function App() {
-  const [useMock, setUseMock] = useState(getMockMode());
   const [alerts, setAlerts] = useState([]);
   const [selectedAlert, setSelectedAlert] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeNav, setActiveNav] = useState('dashboard');
-
-  const handleToggleMock = (e) => {
-    const val = e.target.checked;
-    setMockMode(val);
-    setUseMock(val);
-    window.location.reload();
-  };
 
   const fetchAlerts = () => {
     api.alerts()
@@ -114,20 +106,6 @@ export default function App() {
           <div className="sidebar-status" style={{ marginBottom: '12px' }}>
             <span className="status-dot"></span>
             Monitoring Active
-          </div>
-          <div className="switch-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 500, color: 'var(--text-secondary)' }}>
-              <Cube size={18} weight="fill" color="var(--text-muted)" />
-              Mock Mode
-            </div>
-            <label className="switch">
-              <input 
-                type="checkbox" 
-                checked={useMock} 
-                onChange={handleToggleMock} 
-              />
-              <span className="slider"></span>
-            </label>
           </div>
         </div>
       </aside>
