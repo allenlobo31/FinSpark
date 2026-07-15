@@ -85,7 +85,7 @@ export default function App() {
       <aside className="sidebar">
         <div className="sidebar-brand">
           <h1>
-            <img src="/logoicon.svg" alt="SentinelPAM Logo" style={{ width: '28px', height: '28px', marginRight: '8px' }} />
+            <img src="/logoicon.svg" alt="SentinelPAM Logo" style={{ width: '28px', height: '28px', marginRight: '4px' }} />
             SentinelPAM
           </h1>
           <div className="subtitle">Privileged Access Monitor</div>
