@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { api } from './lib/api';
+import { api, getMockMode, setMockMode } from './lib/api';
 import RiskFeed from './components/RiskFeed';
 import ShapBreakdown from './components/ShapBreakdown';
 import SessionReplay from './components/SessionReplay';
@@ -8,12 +8,21 @@ import Metrics from './components/Metrics';
 import Policies from './components/Policies';
 import MFASettings from './components/MFASettings';
 import AuditLogs from './components/AuditLogs';
+import { SquaresFour, Shield, LockKey, ListDashes, ShieldCheck, Cube } from '@phosphor-icons/react';
 
 export default function App() {
+  const [useMock, setUseMock] = useState(getMockMode());
   const [alerts, setAlerts] = useState([]);
   const [selectedAlert, setSelectedAlert] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeNav, setActiveNav] = useState('dashboard');
+
+  const handleToggleMock = (e) => {
+    const val = e.target.checked;
+    setMockMode(val);
+    setUseMock(val);
+    window.location.reload();
+  };
 
   const fetchAlerts = () => {
     api.alerts()
@@ -34,21 +43,21 @@ export default function App() {
   }, []);
 
   const navItems = [
-    { id: 'dashboard', icon: '📊', label: 'Dashboard' },
-    { id: 'policies', icon: '🛡️', label: 'Policies' },
-    { id: 'mfa', icon: '🔐', label: 'MFA Settings' },
-    { id: 'audit', icon: '📋', label: 'Audit Logs' },
+    { id: 'dashboard', icon: <SquaresFour weight="fill" />, label: 'Dashboard' },
+    { id: 'policies', icon: <Shield />, label: 'Policies' },
+    { id: 'mfa', icon: <LockKey />, label: 'MFA Settings' },
+    { id: 'audit', icon: <ListDashes />, label: 'Audit Logs' },
   ];
 
   const pageTitle = {
-    dashboard: 'Risk Operations Center',
-    policies: 'Policy Management',
+    dashboard: 'Dashboard',
+    policies: 'Policies',
     mfa: 'MFA Settings',
     audit: 'Audit Logs',
   };
 
   const pageSubtitle = {
-    dashboard: 'Real-time anomalous access detection and automated response',
+    dashboard: '',
     policies: 'Automated response rules based on ML inference',
     mfa: 'TOTP multi-factor authentication per user',
     audit: 'Quantum-safe cryptographic audit trail',
@@ -67,7 +76,8 @@ export default function App() {
         return (
           <>
             <Metrics />
-            <div className="grid-3" style={{ marginBottom: '24px' }}>
+            <div style={{ borderTop: '1px solid var(--border-subtle)', margin: '24px 0' }}></div>
+            <div className="grid-dashboard-bottom" style={{ marginBottom: '24px' }}>
               <RiskFeed alerts={alerts} selectedAlert={selectedAlert} onSelectAlert={setSelectedAlert} />
               <ShapBreakdown alert={selectedAlert} />
               <SessionReplay sessionId={selectedAlert?.session_id} />
@@ -83,7 +93,7 @@ export default function App() {
       <aside className="sidebar">
         <div className="sidebar-brand">
           <h1>
-            <span className="brand-icon">🔒</span>
+            <ShieldCheck size={28} weight="fill" color="var(--color-accent)" style={{ marginRight: '8px' }} />
             SentinelPAM
           </h1>
           <div className="subtitle">Privileged Access Monitor</div>
@@ -101,9 +111,23 @@ export default function App() {
           ))}
         </nav>
         <div className="sidebar-footer">
-          <div className="sidebar-status">
+          <div className="sidebar-status" style={{ marginBottom: '12px' }}>
             <span className="status-dot"></span>
             Monitoring Active
+          </div>
+          <div className="switch-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 500, color: 'var(--text-secondary)' }}>
+              <Cube size={18} weight="fill" color="var(--text-muted)" />
+              Mock Mode
+            </div>
+            <label className="switch">
+              <input 
+                type="checkbox" 
+                checked={useMock} 
+                onChange={handleToggleMock} 
+              />
+              <span className="slider"></span>
+            </label>
           </div>
         </div>
       </aside>
@@ -111,7 +135,7 @@ export default function App() {
       <main className="main-content">
         <div className="page-header">
           <h1>{pageTitle[activeNav]}</h1>
-          <div className="page-subtitle">{pageSubtitle[activeNav]}</div>
+          {pageSubtitle[activeNav] && <div className="page-subtitle">{pageSubtitle[activeNav]}</div>}
         </div>
         {renderContent()}
       </main>

@@ -184,15 +184,7 @@ body {
 }
 
 .nav-item.active::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 3px;
-  height: 20px;
-  border-radius: 0 3px 3px 0;
-  background: var(--color-accent);
+  display: none;
 }
 
 .nav-item .icon {
@@ -262,9 +254,10 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
-  padding: 22px;
   box-shadow: var(--shadow-card);
   transition: all var(--transition-smooth);
+  display: flex;
+  flex-direction: column;
 }
 
 .card:hover {
@@ -275,7 +268,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 18px;
+  padding: 20px 22px 16px;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .card-title {
@@ -304,6 +298,12 @@ body {
   gap: 20px;
 }
 
+.grid-dashboard-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 20px;
+}
+
 .grid-4 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -313,8 +313,15 @@ body {
 /* ===================== STAT CARDS ===================== */
 .stat-card {
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.stat-content {
+  display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
 }
 
 .stat-label {
@@ -326,22 +333,22 @@ body {
 }
 
 .stat-value {
-  font-size: 30px;
-  font-weight: 800;
-  letter-spacing: -1.2px;
-  line-height: 1;
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
   color: var(--text-heading);
 }
 
 .stat-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-md);
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  margin-bottom: 4px;
+  font-size: 24px;
+  flex-shrink: 0;
 }
 
 /* ===================== SEVERITY BADGES ===================== */
@@ -451,23 +458,21 @@ body {
 
 /* ===================== ALERT LIST ITEM ===================== */
 .alert-item {
-  background: var(--bg-card);
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-md);
-  padding: 16px;
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--border-subtle);
   cursor: pointer;
   transition: all var(--transition-fast);
 }
+.alert-item:last-child {
+  border-bottom: none;
+}
 
 .alert-item:hover {
-  border-color: var(--border-glow);
-  box-shadow: var(--shadow-card-hover);
-  transform: translateY(-1px);
+  background: var(--bg-card-hover);
 }
 
 .alert-item.selected {
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px var(--color-accent-dim), var(--shadow-card);
+  background: var(--bg-card-hover);
 }
 
 .alert-item.critical-pulse {
@@ -732,4 +737,67 @@ body {
 
 .gap-2 {
   gap: 8px;
+}
+
+/* ===================== TOGGLE SWITCH ===================== */
+.switch-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--border-subtle);
+  transition: var(--transition-fast);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: var(--transition-fast);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+input:checked + .slider {
+  background-color: var(--color-accent);
+}
+
+input:checked + .slider:before {
+  transform: translateX(14px);
+}
+
+.switch-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  user-select: none;
 }

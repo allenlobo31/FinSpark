@@ -1,4 +1,5 @@
 import React from 'react';
+import { LockKey } from '@phosphor-icons/react';
 
 export default function AuditLogs() {
   const logs = [
@@ -20,7 +21,9 @@ export default function AuditLogs() {
     <div className="card" style={{ height: 'calc(100vh - 160px)', display: 'flex', flexDirection: 'column' }}>
       <div className="card-header">
         <h3 className="card-title">Quantum-Safe Audit Trail</h3>
-        <div className="badge badge-low">🔒 PQC Verified</div>
+        <div className="badge badge-low" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <LockKey weight="bold" /> PQC Verified
+        </div>
       </div>
 
       <div style={{ flex: 1, overflowY: 'auto' }}>

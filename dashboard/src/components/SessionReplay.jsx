@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../lib/api';
+import { MagnifyingGlass, Warning } from '@phosphor-icons/react';
 
 const FIXED_HEIGHT = 460;
 
@@ -34,7 +35,7 @@ export default function SessionReplay({ sessionId }) {
       <div className="card" style={{ height: FIXED_HEIGHT }}>
         <div className="card-header"><h3 className="card-title">Session Replay</h3></div>
         <div className="empty-state">
-          <div className="icon">🔍</div>
+          <MagnifyingGlass size={36} weight="regular" />
           <div>Select an alert to view its session.</div>
         </div>
       </div>
@@ -54,7 +55,7 @@ export default function SessionReplay({ sessionId }) {
     return (
       <div className="card" style={{ height: FIXED_HEIGHT }}>
         <div className="card-header"><h3 className="card-title">Session Replay</h3></div>
-        <div style={{ color: 'var(--color-critical)', padding: '20px', fontSize: '13px' }}>⚠ {error}</div>
+        <div style={{ color: 'var(--color-critical)', padding: '20px', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px' }}><Warning size={16} /> {error}</div>
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Globe } from '@phosphor-icons/react';
 import * as d3 from 'd3';
 import { api } from '../lib/api';
 
@@ -171,8 +172,8 @@ export default function LateralMovementGraph() {
           <div className="spinner"></div>Loading topology...
         </div>
       ) : isEmpty ? (
-        <div className="empty-state" style={{ height: 420 }}>
-          <div className="icon">🌐</div>
+        <div className="empty-state">
+          <Globe size={36} weight="regular" />
           <div style={{ fontWeight: 600 }}>No Topology Data</div>
           <div>Generate activity to see the access pattern graph.</div>
         </div>
