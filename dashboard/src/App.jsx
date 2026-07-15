@@ -8,7 +8,7 @@ import Metrics from './components/Metrics';
 import Policies from './components/Policies';
 import MFASettings from './components/MFASettings';
 import AuditLogs from './components/AuditLogs';
-import { SquaresFour, Shield, LockKey, ListDashes, ShieldCheck, Cube } from '@phosphor-icons/react';
+import { SquaresFour, Shield, LockKey, ListDashes } from '@phosphor-icons/react';
 
 export default function App() {
   const [alerts, setAlerts] = useState([]);
@@ -85,7 +85,7 @@ export default function App() {
       <aside className="sidebar">
         <div className="sidebar-brand">
           <h1>
-            <ShieldCheck size={28} weight="fill" color="var(--color-accent)" style={{ marginRight: '8px' }} />
+            <img src="/logoicon.svg" alt="SentinelPAM Logo" style={{ width: '28px', height: '28px', marginRight: '8px' }} />
             SentinelPAM
           </h1>
           <div className="subtitle">Privileged Access Monitor</div>
@@ -109,7 +109,7 @@ export default function App() {
           </div>
         </div>
       </aside>
-      
+
       <main className="main-content">
         <div className="page-header">
           <h1>{pageTitle[activeNav]}</h1>
