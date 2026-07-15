@@ -57,10 +57,7 @@ export default function ShapBreakdown({ alert }) {
         )}
       </div>
 
-      <div style={{ flex: 1, overflowY: 'auto' }}>
-        <div style={{ marginBottom: '16px', fontSize: '14px', fontWeight: 500, color: 'var(--text-heading)' }}>
-          {alert.username} - Score: {alert.score}
-        </div>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '16px 22px' }}>
         {features.map((feature, idx) => {
           const width = (feature.absShap / maxAbs) * 100;
           const isPositive = feature.shap > 0;

@@ -71,7 +71,7 @@ export default function SessionReplay({ sessionId }) {
         </div>
       </div>
       
-      <div className="command-log" style={{ flex: 1, overflowY: 'auto' }}>
+      <div className="command-log" style={{ flex: 1, overflowY: 'auto', padding: '16px 22px' }}>
         {data.events.map((ev, idx) => {
           let content = '';
           let isAnomaly = false;

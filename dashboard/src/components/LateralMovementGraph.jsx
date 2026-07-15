@@ -52,6 +52,8 @@ export default function LateralMovementGraph() {
           .force('link', d3.forceLink(data.edges).id(d => d.id).distance(110))
           .force('charge', d3.forceManyBody().strength(-250))
           .force('center', d3.forceCenter(width / 2, height / 2))
+          .force('x', d3.forceX(width / 2).strength(0.05))
+          .force('y', d3.forceY(height / 2).strength(0.05))
           .force('collide', d3.forceCollide().radius(35));
 
         // Links
@@ -167,19 +169,19 @@ export default function LateralMovementGraph() {
           ))}
         </div>
       </div>
-      {loading ? (
+      {loading && (
         <div className="loading-container" style={{ height: 600 }}>
           <div className="spinner"></div>Loading topology...
         </div>
-      ) : isEmpty ? (
-        <div className="empty-state">
+      )}
+      {isEmpty && !loading && (
+        <div className="empty-state" style={{ height: 600 }}>
           <Globe size={36} weight="regular" />
           <div style={{ fontWeight: 600 }}>No Topology Data</div>
           <div>Generate activity to see the access pattern graph.</div>
         </div>
-      ) : (
-        <svg ref={svgRef}></svg>
       )}
+      <svg ref={svgRef} style={{ display: (loading || isEmpty) ? 'none' : 'block', width: '100%', height: '600px' }}></svg>
     </div>
   );
 }
